@@ -27,12 +27,11 @@ n1 <- 13; n2 <- 8
 
 rep <- 100
 result.perd.rmse <- matrix(NA, rep, 2)
-result.perd.rmse2 <- matrix(NA, rep, 2)
 result.perd.meancrps <- matrix(NA, rep, 2)
 result.perd.comptime <- matrix(NA, rep, 2)
-colnames(result.perd.rmse) <- c("closed", "Cokriging")
-colnames(result.perd.meancrps) <- c("closed", "Cokriging") 
-colnames(result.perd.comptime) <- c("closed", "Cokriging") 
+colnames(result.perd.rmse) <- c("RNAmf", "Cokriging")
+colnames(result.perd.meancrps) <- c("RNAmf", "Cokriging") 
+colnames(result.perd.comptime) <- c("RNAmf", "Cokriging") 
 
 for(i in 1:rep) {
   set.seed(i)
@@ -55,13 +54,13 @@ for(i in 1:rep) {
   ### test data ###
   x <- seq(0,1,length.out=1000)
   
-  ### closed ###
-  tic.closed <- proc.time()[3]
-  fit.closed <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
-  pred.closed <- predRNAmf(fit.closed, x)
-  predy <- pred.closed$mu
-  predsig2 <- pred.closed$sig2
-  toc.closed <- proc.time()[3]
+  ### RNAmf ###
+  tic.RNAmf <- proc.time()[3]
+  fit.RNAmf <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
+  pred.RNAmf <- predRNAmf(fit.RNAmf, x)
+  predy <- pred.RNAmf$mu
+  predsig2 <- pred.RNAmf$sig2
+  toc.RNAmf <- proc.time()[3]
 
   ### Cokriging ###
   tic.cokm <- proc.time()[3]
@@ -73,13 +72,13 @@ for(i in 1:rep) {
   toc.cokm <- proc.time()[3]
   
   
-  result.perd.rmse[i,1] <- sqrt(mean((predy-f2(x))^2)) # closed form
+  result.perd.rmse[i,1] <- sqrt(mean((predy-f2(x))^2)) 
   result.perd.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-f2(x))^2)) 
   
   result.perd.meancrps[i,1] <- mean(crps(f2(x), predy, predsig2))
   result.perd.meancrps[i,2] <- mean(crps(f2(x), pred.muficokm$mean, pred.muficokm$sig2)) 
   
-  result.perd.comptime[i,1] <- toc.closed - tic.closed
+  result.perd.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.perd.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
@@ -99,7 +98,3 @@ boxplot(result.perd.rmse)
 apply(result.perd.meancrps, 2, mean)
 table(apply(result.perd.meancrps, 1, which.min))
 boxplot(result.perd.meancrps)
-
-
-
-
