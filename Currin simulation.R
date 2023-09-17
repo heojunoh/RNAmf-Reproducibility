@@ -98,7 +98,7 @@ for(i in 1:rep) {
   result.currin.meancrps[i,1] <- mean(crps(apply(x,1,curretal88exp), predy, predsig2)) 
   result.currin.meancrps[i,2] <- mean(crps(apply(x,1,curretal88exp), pred.muficokm$mean, pred.muficokm$sig2)) 
   
-  result.currin.comptime[i,1] <- toc.closed - tic.closed
+  result.currin.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.currin.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
