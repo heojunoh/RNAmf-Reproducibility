@@ -4,12 +4,12 @@ library(laGP)
 library(plgp)
 library(MuFiCokriging)
 library(RNAmf)
+library(reticulate)
 
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
   -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
 }
-
 
 ### synthetic function ###
 franke2dl <- function(xx)
@@ -48,9 +48,9 @@ rep <- 100
 result.Franke.rmse <- matrix(NA, rep, 2)
 result.Franke.meancrps <- matrix(NA, rep, 2)
 result.Franke.comptime <- matrix(NA, rep, 2)
-colnames(result.Franke.rmse) <- c("closed", "Cokriging")
-colnames(result.Franke.meancrps) <- c("closed", "Cokriging") # The smaller, the better
-colnames(result.Franke.comptime) <- c("closed", "Cokriging") # The smaller, the better
+colnames(result.Franke.rmse) <- c("RNAmf", "Cokriging")
+colnames(result.Franke.meancrps) <- c("RNAmf", "Cokriging")
+colnames(result.Franke.comptime) <- c("RNAmf", "Cokriging")
 
 for(i in 1:rep) {
   set.seed(i)
@@ -71,21 +71,19 @@ for(i in 1:rep) {
   y3 <- apply(X3,1,franke2dh)
   
   
-  # ### model fitting for f1 ###
   eps <- sqrt(.Machine$double.eps)
 
   ### test data ###
   x <- maximinLHS(1000, 2)
   
-  ### closed ###
-  tic.closed <- proc.time()[3]
-  fit.closed <- RNAmf2(X1, y1, X2, y2, X3, y3, kernel="sqex", constant=TRUE)
-  pred.closed <- predRNAmf2(fit.closed, x)
-  predy <- pred.closed$mu
-  predsig2 <- pred.closed$sig2
-  toc.closed <- proc.time()[3]
+  ### RNAmf ###
+  tic.RNAmf <- proc.time()[3]
+  fit.RNAmf <- RNAmf2(X1, y1, X2, y2, X3, y3, kernel="sqex", constant=TRUE)
+  pred.RNAmf <- predRNAmf2(fit.RNAmf, x)
+  predy <- pred.RNAmf$mu
+  predsig2 <- pred.RNAmf$sig2
+  toc.RNAmf <- proc.time()[3]
   
-
   ### Cokriging ###
   tic.cokm <- proc.time()[3]
   fit.muficokm <- MuFicokm(formula = list(~1,~1,~1), MuFidesign = NestDesign, covtype="gauss",
@@ -96,33 +94,29 @@ for(i in 1:rep) {
   toc.cokm <- proc.time()[3]
   
   
-  ### RMSE ###
-  result.Franke.rmse[i,1] <- sqrt(mean((predy-apply(x,1,franke2dh))^2)) # closed form
-  result.Franke.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-apply(x,1,franke2dh))^2)) # Cokriging
+  result.Franke.rmse[i,1] <- sqrt(mean((predy-apply(x,1,franke2dh))^2)) 
+  result.Franke.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-apply(x,1,franke2dh))^2)) 
   
-  result.Franke.meancrps[i,1] <- mean(crps(apply(x,1,franke2dh), predy, predsig2)) # closed form
-  result.Franke.meancrps[i,2] <- mean(crps(apply(x,1,franke2dh), pred.muficokm$mean, pred.muficokm$sig2)) # Cokriging
+  result.Franke.meancrps[i,1] <- mean(crps(apply(x,1,franke2dh), predy, predsig2)) 
+  result.Franke.meancrps[i,2] <- mean(crps(apply(x,1,franke2dh), pred.muficokm$mean, pred.muficokm$sig2)) 
   
-  result.Franke.comptime[i,1] <- toc.closed - tic.closed
+  result.Franke.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.Franke.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
-install.packages("reticulate")
-library(reticulate)
+
 py_run_file("Franke.py")
 result.Franke.rmse <- cbind(result.Franke.rmse, NARGP=unlist(py$l2error))
 result.Franke.meancrps <- cbind(result.Franke.meancrps, NARGP=unlist(py$meancrps))
 result.Franke.comptime <- cbind(result.Franke.comptime, NARGP=unlist(py$comptime))
 
 par(mfrow=c(1,1))
-#RMSE comparison#
-apply(result.Franke.rmse, 2, mean) # 0.10, 0.13, 0.13, 0.05
+### RMSE comparison ###
+apply(result.Franke.rmse, 2, mean) 
 table(apply(result.Franke.rmse, 1, which.min))
 boxplot(result.Franke.rmse)
 
-#CRPS comparison, The smaller, the better
+### CRPS comparison ###
 apply(result.Franke.meancrps, 2, mean)
 table(apply(result.Franke.meancrps, 1, which.min))
 boxplot(result.Franke.meancrps)
-
-
