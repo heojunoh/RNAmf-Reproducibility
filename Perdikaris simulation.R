@@ -1,11 +1,4 @@
 ### Perdikaris Example ###
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(RNAmf)
-library(reticulate)
-
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
   -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
@@ -82,8 +75,12 @@ for(i in 1:rep) {
   result.perd.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
-
-py_run_file("Perdikaris.py")
+py_install("GPy")
+py_install("pandas")
+py_install("matplotlib")
+py_install("scipy")
+py_install("time")
+py_run_file("python code/Perdikaris.py")
 result.perd.rmse <- cbind(result.perd.rmse, NARGP=unlist(py$l2error))
 result.perd.meancrps <- cbind(result.perd.meancrps, NARGP=unlist(py$meancrps))
 result.perd.comptime <- cbind(result.perd.comptime, NARGP=unlist(py$comptime))
