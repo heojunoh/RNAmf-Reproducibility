@@ -120,15 +120,3 @@ py_run_file("python code/Branin.py")
 result.branin.rmse <- cbind(result.branin.rmse, NARGP=unlist(py$l2error))
 result.branin.meancrps <- cbind(result.branin.meancrps, NARGP=unlist(py$meancrps))
 result.branin.comptime <- cbind(result.branin.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.branin.rmse, 2, mean) 
-table(apply(result.branin.rmse, 1, which.min))
-boxplot(result.branin.rmse)
-
-### CRPS comparison ###
-apply(result.branin.meancrps, 2, mean)
-table(apply(result.branin.meancrps, 1, which.min))
-boxplot(result.branin.meancrps)
-
