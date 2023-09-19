@@ -394,6 +394,8 @@ cost <- 3
 ### synthetic function ###
 park91a <- function(xx)
 {
+  if(xx[1]==0) xx[1] <- sqrt(.Machine$double.eps) # To prevent yielding infinity for Park function
+  
   x1 <- xx[1]
   x2 <- xx[2]
   x3 <- xx[3]
@@ -413,6 +415,8 @@ park91a <- function(xx)
 
 park91alc <- function(xx)
 {
+  if(xx[1]==0) xx[1] <- sqrt(.Machine$double.eps) # To prevent yielding infinity for Park function
+  
   x1 <- xx[1]
   x2 <- xx[2]
   x3 <- xx[3]
