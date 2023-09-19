@@ -13,8 +13,8 @@ The following results are reproduced in this file
 - Section 5.2: Figures 7, 8, 9 and 10
 - Section 6: Figure 12, 13 and 14
 
-Note that you may need to activate a few lines on ALM_two_level,
-ALC_two_level, and ALMC_two_level by each active learning.
+Note that you need to comment/uncomment a few lines on ALM_two_level, ALC_two_level, and ALMC_two_level for Blade active learning in sedtion 6. Section 5.2 and section 6 are run with 10 cores. You can change the number of cores when you run. Followings are running time for each section; Section 5.1; ~ 12 hours, Section 5.2; ~ 48 hours, Section 6; ~ 12 hours.
+[WARNING] Reproducing results of Section 5.2 can take a long time to run (more than a day). We recommend reproducing Section 5.1 and Section 6 first before reproducing Section 5.2. 
 
 ##### Step 0.1: load functions and packages
 
