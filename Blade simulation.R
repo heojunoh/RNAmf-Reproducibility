@@ -1,13 +1,3 @@
-library(MuFiCokriging)
-library(lhs)
-library(plgp)
-
-library(matlabr)
-library(randtoolbox)
-library(RColorBrewer)
-library(ggplot2)
-library(gridExtra)
-
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
   -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
@@ -123,4 +113,3 @@ for(i in 1:rep) {
 result.blade.rmse <- cbind(result.blade.rmse, NARGP=unlist(py$l2error))
 result.blade.meancrps <- cbind(result.blade.meancrps, NARGP=unlist(py$meancrps))
 result.blade.comptime <- cbind(result.blade.comptime, NARGP=unlist(py$comptime))
-
