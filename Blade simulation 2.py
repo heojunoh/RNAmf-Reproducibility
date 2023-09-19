@@ -15,18 +15,18 @@ comptime= []
 dim=2
 active_dimensions = np.arange(0,dim)
  
-Xtest = np.array(pd.read_table("/Rmatlab_files/generate_text/Xtest.txt", sep=","))
-Exact = np.array(pd.read_table("/Rmatlab_files/generate_text/ytest.txt", sep=","))
+Xtest = np.array(pd.read_table("Rmatlab_files/generate_text/Xtest.txt", sep=","))
+Exact = np.array(pd.read_table("Rmatlab_files/generate_text/ytest.txt", sep=","))
 
 #########################################
 
-# X1 = np.array(pd.read_table("/Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
-# Y1 = np.array(pd.read_table("/Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
+# X1 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
+# Y1 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
 # Y1
 
 
-X2 = np.array(pd.read_table("/Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
-Y2 = np.array(pd.read_table("/Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
+X2 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
+Y2 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
 Y2
 
 
