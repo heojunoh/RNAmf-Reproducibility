@@ -179,6 +179,8 @@ ggarrange(plot.perd.rmse, plot.branin.rmse, plot.park.rmse,
           ncol=3, nrow=2, common.legend = TRUE, legend="bottom") 
 ```
 
+<img src="README_files/figure/Synthetic RMSE.pdf" style="display: block; margin: auto;" />
+
 ##### Section 5.1: Reproducing Figure 5
 
 This is reproducing plots of CRPS for synthetic functions.
