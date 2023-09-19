@@ -106,14 +106,3 @@ py_run_file("python code/Franke.py")
 result.Franke.rmse <- cbind(result.Franke.rmse, NARGP=unlist(py$l2error))
 result.Franke.meancrps <- cbind(result.Franke.meancrps, NARGP=unlist(py$meancrps))
 result.Franke.comptime <- cbind(result.Franke.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.Franke.rmse, 2, mean) 
-table(apply(result.Franke.rmse, 1, which.min))
-boxplot(result.Franke.rmse)
-
-### CRPS comparison ###
-apply(result.Franke.meancrps, 2, mean)
-table(apply(result.Franke.meancrps, 1, which.min))
-boxplot(result.Franke.meancrps)
