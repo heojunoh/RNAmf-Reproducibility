@@ -135,14 +135,3 @@ py_run_file("python code/Borehole.py")
 result.borehole.rmse <- cbind(result.borehole.rmse, NARGP=unlist(py$l2error))
 result.borehole.meancrps <- cbind(result.borehole.meancrps, NARGP=unlist(py$meancrps))
 result.borehole.comptime <- cbind(result.borehole.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.borehole.rmse, 2, mean) 
-table(apply(result.borehole.rmse, 1, which.min))
-boxplot(result.borehole.rmse)
-
-### CRPS comparison ###
-apply(result.borehole.meancrps, 2, mean)
-table(apply(result.borehole.meancrps, 1, which.min))
-boxplot(result.borehole.meancrps)
