@@ -1,0 +1,9 @@
+smodel1 = createpde('structural', 'static-solid');
+importGeometry(smodel1, 'Blade.stl');
+pdegplot(smodel1, 'FaceLabels', 'on', 'FaceAlpha', 0.5);
+smodel1 = createpde('structural', 'static-solid');
+importGeometry(smodel1, 'Blade.stl');
+pdegplot(smodel1, 'FaceLabels', 'on', 'FaceAlpha', 0.5);
+smodel1 = createpde('structural', 'static-solid');
+importGeometry(smodel1, 'Blade.stl');
+pdegplot(smodel1, 'FaceLabels', 'on', 'FaceAlpha', 0.5);
