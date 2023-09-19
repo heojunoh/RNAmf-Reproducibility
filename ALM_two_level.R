@@ -148,7 +148,6 @@ ALM_two_level <- function(fit, cost, funcs, n.start, parallel=FALSE, ncore=1){
 
   ### Update the model ###
   newx <- matrix(chosen$Xnext, nrow=1)
-  # if(newx[1,1]==0) newx[1,1] <- sqrt(.Machine$double.eps) # To prevent yielding infinity for Park function
   level <- chosen$level
 
   X1 <- t(t(fit1$X)*attr(fit1$X,"scaled:scale")+attr(fit1$X,"scaled:center"))
