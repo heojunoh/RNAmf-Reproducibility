@@ -111,14 +111,3 @@ py_run_file("python code/Park.py")
 result.park.rmse <- cbind(result.park.rmse, NARGP=unlist(py$l2error))
 result.park.meancrps <- cbind(result.park.meancrps, NARGP=unlist(py$meancrps))
 result.park.comptime <- cbind(result.park.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.park.rmse, 2, mean) 
-table(apply(result.park.rmse, 1, which.min))
-boxplot(result.park.rmse)
-
-### CRPS comparison ###
-apply(result.park.meancrps, 2, mean)
-table(apply(result.park.meancrps, 1, which.min))
-boxplot(result.park.meancrps)
