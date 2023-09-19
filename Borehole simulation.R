@@ -1,11 +1,4 @@
 ### Borehole Example ###
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(RNAmf)
-library(reticulate)
-
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
   -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
@@ -133,7 +126,12 @@ for(i in 1:rep) {
   result.borehole.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
-py_run_file("Borehole.py")
+py_install("GPy")
+py_install("pandas")
+py_install("matplotlib")
+py_install("scipy")
+py_install("time")
+py_run_file("python code/Borehole.py")
 result.borehole.rmse <- cbind(result.borehole.rmse, NARGP=unlist(py$l2error))
 result.borehole.meancrps <- cbind(result.borehole.meancrps, NARGP=unlist(py$meancrps))
 result.borehole.comptime <- cbind(result.borehole.comptime, NARGP=unlist(py$comptime))
