@@ -1,11 +1,4 @@
 ### Currin Example ###
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(RNAmf)
-library(reticulate)
-
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
   -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
@@ -102,8 +95,12 @@ for(i in 1:rep) {
   result.currin.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
-
-py_run_file("Currin.py")
+py_install("GPy")
+py_install("pandas")
+py_install("matplotlib")
+py_install("scipy")
+py_install("time")
+py_run_file("python code/Currin.py")
 result.currin.rmse <- cbind(result.currin.rmse, NARGP=unlist(py$l2error))
 result.currin.meancrps <- cbind(result.currin.meancrps, NARGP=unlist(py$meancrps))
 result.currin.comptime <- cbind(result.currin.comptime, NARGP=unlist(py$comptime))
