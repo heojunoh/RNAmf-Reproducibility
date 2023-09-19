@@ -84,14 +84,3 @@ py_run_file("python code/Perdikaris.py")
 result.perd.rmse <- cbind(result.perd.rmse, NARGP=unlist(py$l2error))
 result.perd.meancrps <- cbind(result.perd.meancrps, NARGP=unlist(py$meancrps))
 result.perd.comptime <- cbind(result.perd.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.perd.rmse, 2, mean) 
-table(apply(result.perd.rmse, 1, which.min))
-boxplot(result.perd.rmse)
-
-### CRPS comparison ###
-apply(result.perd.meancrps, 2, mean)
-table(apply(result.perd.meancrps, 1, which.min))
-boxplot(result.perd.meancrps)
