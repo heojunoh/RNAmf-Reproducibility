@@ -104,15 +104,3 @@ py_run_file("python code/Currin.py")
 result.currin.rmse <- cbind(result.currin.rmse, NARGP=unlist(py$l2error))
 result.currin.meancrps <- cbind(result.currin.meancrps, NARGP=unlist(py$meancrps))
 result.currin.comptime <- cbind(result.currin.comptime, NARGP=unlist(py$comptime))
-
-par(mfrow=c(1,1))
-### RMSE comparison ###
-apply(result.currin.rmse, 2, mean)
-table(apply(result.currin.rmse, 1, which.min))
-boxplot(result.currin.rmse)
-
-### CRPS comparison ###
-apply(result.currin.meancrps, 2, mean)
-table(apply(result.currin.meancrps, 1, which.min))
-boxplot(result.currin.meancrps)
-
