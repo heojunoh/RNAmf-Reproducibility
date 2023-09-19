@@ -179,7 +179,7 @@ ggarrange(plot.perd.rmse, plot.branin.rmse, plot.park.rmse,
           ncol=3, nrow=2, common.legend = TRUE, legend="bottom") 
 ```
 
-<img src="figure/Synthetic RMSE.pdf" style="display: block; margin: auto;" />
+<img src="figure/Synthetic RMSE.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure 5
 
@@ -282,6 +282,8 @@ ggarrange(plot.perd.crps, plot.branin.crps, plot.park.crps,
           plot.borehole.crps, plot.currin.crps, plot.franke.crps, 
           ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
+
+<img src="figure/Synthetic CRPS.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure 6
 
