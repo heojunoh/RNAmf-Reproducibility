@@ -8,6 +8,6 @@ import scipy.stats as stats
 
 import time
 
-X1 = np.array(pd.read_table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
-Y1 = np.array(pd.read_table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
+X1 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_X.txt", sep=","))
+Y1 = np.array(pd.read_table("Rmatlab_files/generate_text/temp_to_r.txt", sep=",", header=None)[3])[:,None]
 Y1
