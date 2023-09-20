@@ -62,7 +62,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/python code/Perdikaris.py")
+  py <- py_run_file("python code/Perdikaris.py")
   
   result.perd.rmse[i,1] <- sqrt(mean((predy-f2(x))^2)) 
   result.perd.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-f2(x))^2)) 
