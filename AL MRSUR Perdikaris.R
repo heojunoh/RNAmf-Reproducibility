@@ -1,8 +1,3 @@
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-
 GP <- function(X, y, g=eps, 
                lower=0.001, upper=1000, 
                Xscale=TRUE, Yscale=TRUE, constant=FALSE){
@@ -307,8 +302,6 @@ IMSPEKOHselect1 <- function(x, newx, fit, level){
   if(level==1){ ### level 1 ###
     ### Generate output
     y.select <- f1(newx)
-    # y.select <- park91alc(newx)
-    # y.select <- apply(newx,1,outputlow.f)
     
     X1 <- rbind(fit$X1, newx)
     Y1 <- c(fit$Y1, y.select)
@@ -316,8 +309,6 @@ IMSPEKOHselect1 <- function(x, newx, fit, level){
   }else if(level==2){ ### level 2 ###
     ### Generate output
     y.select <- f2(newx)
-    # y.select <- park91a(newx)
-    # y.select <- apply(newx,1,output.f)
     
     X2 <- rbind(fit$X2, newx)
     Y2 <- c(fit$Y2, y.select)
@@ -448,21 +439,11 @@ for(kk in 1:10){
     IcandKOH2[i] <- IMSPEKOH1(g, g[i], fit.KOH2, level=2)
   }
   
-  which.min(IcandKOH1)
-  which.min(IcandKOH2)
-  
   mrsur <- c(Icurrent - IcandKOH1[which.min(IcandKOH1)], Icurrent - IcandKOH2[which.min(IcandKOH2)])
-  mrsur
-  
-  ### cost; 1, 2, 3 ###
-  which.max(mrsur/c(1,cost))
-  mrsur/c(1,cost)
-  
-  
+
   chosen <- matrix(0, ncol=2)
   chosen[1,1] <- which.max(mrsur/c(1,cost))
   chosen[1,2] <- which.min(cbind(IcandKOH1, IcandKOH2)[,chosen[1,1]])
-  
   
   perd.cost <- 0
   perd.error <- sqrt(mean((mx1-f2(x))^2))
@@ -493,7 +474,7 @@ for(kk in 1:10){
     #############
     ### IMSPE ###
     #############
-    g <- seq(0,1,0.01) # more than 1-dim, use expand.grid()
+    g <- seq(0,1,length.out=1000) # more than 1-dim, use expand.grid()
     Icurrent <- mean(koh.var1)
     
     ### Add 1 points and calculate IMSPE ###
@@ -514,17 +495,8 @@ for(kk in 1:10){
     if(any(IcandKOH1==0)){IcandKOH1[which(IcandKOH1==0)] <-  max(IcandKOH1)}
     if(any(IcandKOH2==0)){IcandKOH2[which(IcandKOH2==0)] <-  max(IcandKOH2)}
     
-    which.min(IcandKOH1)
-    which.min(IcandKOH2)
-    
     mrsur <- c(Icurrent - IcandKOH1[which.min(IcandKOH1)], Icurrent - IcandKOH2[which.min(IcandKOH2)])
-    mrsur
-    
-    ### cost; 1, 2, 3 ###
-    which.max(mrsur/c(1,cost))
-    mrsur/c(1,cost)
-    
-    
+   
     chosen <- rbind(chosen, c(which.max(mrsur/c(1,cost)), which.min(cbind(IcandKOH1, IcandKOH2)[,which.max(mrsur/c(1,cost))])))
     Iselect <- IMSPEKOHselect1(g, g[chosen[nrow(chosen),2]], Iselect, level=chosen[nrow(chosen),1])
     
@@ -540,6 +512,3 @@ for(kk in 1:10){
 costmatk
 rmsematk
 crpsmatk
-
-
-
