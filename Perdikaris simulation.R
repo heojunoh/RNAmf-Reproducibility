@@ -41,7 +41,7 @@ for(i in 1:rep) {
   ### test data ###
   x <- seq(0,1,length.out=1000)
 
-  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=matrix(x,ncol=1), Ytest=f2(matrix(x,ncol=1))), file = "/Users/junoh/Downloads/tmp_data_perd.rds")
+  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=matrix(x,ncol=1), Ytest=f2(matrix(x,ncol=1))), file = "tmp_data_perd.rds")
   
   ### RNAmf ###
   tic.RNAmf <- proc.time()[3]
