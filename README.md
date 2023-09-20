@@ -350,7 +350,7 @@ ggplot(df.comptime,
 ##### Section 5.2: Reproducing Figure 7
 
 This is reproducing plots of RMSE and CRPS for active learning on
-Perdikaris function.
+Perdikaris function. You may need to cut the cost result of Cokm at 43.
 
 ``` r
 # Run 5 active learning strategies for Perdikaris function
@@ -652,7 +652,7 @@ ppropperd <- ggplot(df.propperd, aes(x=Strategy, y=Prop, fill=Strategy, color=St
 ##### Section 5.2: Reproducing Figure 9
 
 This is reproducing plots of RMSE and CRPS for active learning on Park
-function.
+function. You may need to cut the cost result of Cokm at 30.
 
 ``` r
 # Run 5 active learning strategies for Perdikaris function
@@ -1015,7 +1015,7 @@ plot.blade <- ggarrange(plot.blade.rmse, NULL, plot.blade.crps, NULL, plot.blade
 ##### Section 6: Reproducing Figure 13
 
 This is reproducing plots of RMSE and CRPS for active learning on Blade
-data. Before you run, you should set the path on R and matlab script.
+data. Before you run, you should set the path on R and matlab script. You may need to cut the cost result of Cokm at 45.5.
 
 ``` r
 # Run 5 active learning strategies for Blade data
