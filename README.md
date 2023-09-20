@@ -194,7 +194,7 @@ ggarrange(plot.perd.rmse, plot.branin.rmse, plot.park.rmse,
 
     ## Loading required package: ggplot2
 
-<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="figure/Synthetic RMSE.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure 5
 
@@ -296,7 +296,7 @@ ggarrange(plot.perd.crps, plot.branin.crps, plot.park.crps,
           ncol=3, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="figure/Synthetic CRPS.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure 6
 
@@ -346,7 +346,7 @@ ggplot(df.comptime,
   facet_grid(. ~ model)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="figure/Synthetic comptime.png" style="display: block; margin: auto;" />
 
 ## Section 5.2
 
@@ -567,7 +567,7 @@ plotalperd.crps <- ggplot(perdalresult.crps, aes(x)) +
 ggarrange(plotalperd.rmse, NULL, plotalperd.crps, ncol=3, nrow=1, widths = c(1, -0.1, 1), common.legend = TRUE, legend="bottom")
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="figure/Perd AL.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure 8
 
@@ -650,7 +650,7 @@ ppropperd <- ggplot(df.propperd, aes(x=Strategy, y=Prop, fill=Strategy, color=St
 (pperdfinal + ppropperd + plot_layout(guides = "collect") & theme(legend.position = "bottom"))
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="figure/Perd AL prop.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure 9
 
@@ -867,7 +867,7 @@ plotalpark.crps <- ggplot(parkalresult.crps, aes(x)) +
 ggarrange(plotalpark, NULL, plotalpark.crps, ncol=3, nrow=1, widths = c(1, -0.1, 1), common.legend = TRUE, legend="bottom")
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="figure/Park AL.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure 10
 
@@ -951,7 +951,7 @@ pproppark <- ggplot(df.proppark, aes(x=Strategy, y=Prop, fill=Strategy, color=St
 (pparkfinal + pproppark + plot_layout(guides = "collect") & theme(legend.position = "bottom"))
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="figure/Park AL prop.png" style="display: block; margin: auto;" />
 
 ## Section 6
 
@@ -1013,7 +1013,7 @@ plot.blade.comptime <- ggplot(data.frame(blade.comptime, model), aes(x=model, y=
 plot.blade <- ggarrange(plot.blade.rmse, NULL, plot.blade.crps, NULL, plot.blade.comptime, ncol=5, nrow=1, widths=c(1,-0.1,1,-0.1,1), common.legend = TRUE, legend="bottom")
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="figure/Blade comparison.png" style="display: block; margin: auto;" />
 
 ##### Section 6: Reproducing Figure 13
 
@@ -1303,7 +1303,7 @@ plotalblade.crps <- ggplot(bladealresult.crps, aes(x)) +
 ggarrange(plotalblade.rmse, NULL, plotalblade.crps, ncol=3, nrow=1, widths = c(1, -0.1, 1), common.legend = TRUE, legend="bottom")
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="figure/Blade AL.png" style="display: block; margin: auto;" />
 
 ##### Section 6: Reproducing Figure 14
 
@@ -1391,4 +1391,4 @@ ppropblade <- ggplot(df.propblade,
 (pbladefinal + ppropblade + plot_layout(guides = "collect") & theme(legend.position = "bottom"))
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="figure/Blade AL prop.png" style="display: block; margin: auto;" />
