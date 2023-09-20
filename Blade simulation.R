@@ -1,18 +1,3 @@
-library(MuFiCokriging)
-library(lhs)
-library(plgp)
-
-library(matlabr)
-library(randtoolbox)
-library(RColorBrewer)
-library(ggplot2)
-library(gridExtra)
-
-crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
-  if(any(sig2==0)) sig2[sig2==0] <- eps
-  -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
-}
-
 cost <- NULL
 d <- 2              # d: dimension of X (scalar)
 n.init <- 5*d
@@ -26,24 +11,24 @@ l <- 5
 
 blade1 <- function(xx){
   d1 <- data.frame(xx*0.5+0.25, rep(0.05, nrow(xx))) # scale X to [-1,1]
-  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+  write.csv(xx, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
                     splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
                     intern = TRUE)
-  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
   y <- d2$V4
   y
 }
 
 blade2 <- function(xx){
   d1 <- data.frame(xx*0.5+0.25, rep(0.0125, nrow(xx))) # scale X to [-1,1]
-  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+  write.csv(xx, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
                     splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
                     intern = TRUE)
-  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
   y <- d2$V4
   y
 }
@@ -109,7 +94,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/Users/junoh/Downloads/Blade.py")
+  py <- py_run_file("/python code/Blade.py")
   
   ### RMSE ###
   result.blade.rmse[i,1] <- sqrt(mean((predy-y.test)^2)) # RNAmf
@@ -123,7 +108,5 @@ for(i in 1:rep) {
   result.blade.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.blade.comptime[i,2] <- toc.cokm - tic.cokm
   result.blade.comptime[i,3] <- py$ctime
-  
-  boxplot(result.blade.rmse[1:i,, drop=FALSE])
 }
 
