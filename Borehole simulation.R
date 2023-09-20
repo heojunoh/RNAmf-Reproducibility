@@ -114,7 +114,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/python code/Borehole.py")
+  py <- py_run_file("python code/Borehole.py")
   
   result.borehole.rmse[i,1] <- sqrt(mean((predy-apply(x,1,output.f))^2)) 
   result.borehole.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-apply(x,1,output.f))^2)) 
