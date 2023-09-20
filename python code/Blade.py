@@ -1,17 +1,6 @@
-import GPy
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.mlab as ml
-import matplotlib.patches as mpatches
-import pandas as pd
-import scipy.stats as stats
-import rpy2.robjects as robjects
-
-import time
-
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_blade.rds")
+loaded_data = r.readRDS("/tmp_data_blade.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
 Y1=np.array(loaded_data[2])[:,None]
