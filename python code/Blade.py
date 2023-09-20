@@ -10,7 +10,7 @@ import time
 
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/tmp_data_blade.rds")
+loaded_data = r.readRDS("tmp_data_blade.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
 Y1=np.array(loaded_data[2])[:,None]
