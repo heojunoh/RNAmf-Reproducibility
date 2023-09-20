@@ -1,5 +1,3 @@
-eps <- sqrt(.Machine$double.eps)
-
 costmatc <- list(NA)
 rmsematc <- list(NA)
 crpsmatc <- list(NA)
