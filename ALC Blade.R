@@ -1,12 +1,3 @@
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(doParallel)
-library(foreach)
-library(RNAmf)
-library(matlabr)
-
 eps <- sqrt(.Machine$double.eps)
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
@@ -31,20 +22,36 @@ n.max <- 300        # the maximum number of sample size
 log.fg <- TRUE
 l <- 5
 
+blade1 <- function(xx){
+  d1 <- data.frame(xx*0.5+0.25, rep(0.05, nrow(xx))) # scale X to [-1,1]
+  write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
+                    intern = TRUE)
+  d2 <- read.table("Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  y <- d2$V4
+  y
+}
+
+blade2 <- function(xx){
+  d1 <- data.frame(xx*0.5+0.25, rep(0.0125, nrow(xx))) # scale X to [-1,1]
+  write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
+                    intern = TRUE)
+  d2 <- read.table("Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  y <- d2$V4
+  y
+}
+
 ### test data ###
 d <- 2
 n <- 100
 set.seed(1)
 X.test <- maximinLHS(n, d)
-d1 <- data.frame(X.test*0.5+0.25, rep(0.0125, nrow(X.test))) # scale X to [-1,1]
-write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-write.csv(X.test, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-                  splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                  intern = TRUE)
-d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-y.test <- d2$V4 # MM=0.3 takes 10 minutes #
-
+y.test <- blade2(X.test)
 
 for(kk in 1:10){
   time.start <- proc.time()[3]
@@ -61,24 +68,10 @@ for(kk in 1:10){
   X2 <- ExtractNestDesign(NestDesign,2)
   
   ### Y1 ###
-  d1 <- data.frame(X1*0.5+0.25, rep(0.05, nrow(X1))) # scale X to [0.25,0.75]
-  write.csv(X1, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                    intern = TRUE)
-  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-  y1 <- d2$V4
+  y1 <- blade1(X1)
   
   ### Y2 ###
-  d1 <- data.frame(X2*0.5+0.25, rep(0.0125, nrow(X2))) # scale X to [0.25,0.75]
-  write.csv(X2, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                    intern = TRUE)
-  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-  y2 <- d2$V4
+  y2 <- blade2(X2)
   
   ### RNAmf ###
   fit.RNAmf <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
@@ -93,7 +86,7 @@ for(kk in 1:10){
   blade.error <- sqrt(mean((predy-y.test)^2))
   blade.crps <- mean(crps(y.test, predy, predsig2))
   
-  Iselect <- ALC_two_level(X.test, fit.RNAmf, 100, cost, list(NULL, NULL), parallel=TRUE, ncore=10)
+  Iselect <- ALC_two_level(X.test, fit.RNAmf, 100, cost, list(blade1, blade2), parallel=TRUE, ncore=10)
   
   
   #################
@@ -118,7 +111,7 @@ for(kk in 1:10){
     if(blade.cost[length(blade.cost)] >= 45.5){break}
     
     ### update the next point ###
-    Iselect <- ALC_two_level(X.test, Iselect$fit, 100, cost, list(NULL, NULL), parallel=TRUE, ncore=10)
+    Iselect <- ALC_two_level(X.test, Iselect$fit, 100, cost, list(blade1, blade2), parallel=TRUE, ncore=10)
     save.image("/Blade AL2.RData")
   }
   
@@ -135,6 +128,3 @@ costmatc2
 rmsematc2
 crpsmatc2
 time.each2
-
-
-
