@@ -1,16 +1,3 @@
-### Perdikaris Example ###
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(RNAmf)
-library(reticulate)
-
-crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
-  if(any(sig2==0)) sig2[sig2==0] <- eps
-  -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
-}
-
 ### synthetic function ###
 f1 <- function(x)
 {
@@ -75,7 +62,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/Users/junoh/Downloads/Perdikaris.py")
+  py <- py_run_file("/python code/Perdikaris.py")
   
   result.perd.rmse[i,1] <- sqrt(mean((predy-f2(x))^2)) 
   result.perd.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-f2(x))^2)) 
@@ -88,7 +75,5 @@ for(i in 1:rep) {
   result.perd.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.perd.comptime[i,2] <- toc.cokm - tic.cokm
   result.perd.comptime[i,3] <- py$ctime
-  
-  boxplot(result.perd.rmse[1:i,, drop=FALSE])
 }
 
