@@ -109,11 +109,11 @@ for(kk in 1:10){
     print(sqrt(mean((cokm_varmax$ypredseq$mean-y.test)^2)))
     rmsematco[[kk]][i+1] <- sqrt(mean((cokm_varmax$ypredseq$mean-y.test)^2)) # Cokm
     crpsmatco[[kk]][i+1] <- mean(crps(y.test, cokm_varmax$ypredseq$mean, cokm_varmax$ypredseq$sig2)) # Cokm
-    save.image("/Blade Cokm.RData")
+    save.image("Blade Cokm.RData")
   }
   
   costmatco[[kk]] <- 2.25*c(0,cokm_varmax$CoutSave)
-  save.image("/Blade Cokm.RData")
+  save.image("Blade Cokm.RData")
   
 }
 costmatco
