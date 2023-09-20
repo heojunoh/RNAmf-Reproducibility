@@ -1,9 +1,3 @@
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(matlabr)
-
 GP <- function(X, y, g=eps, 
                lower=0.001, upper=1000, 
                Xscale=TRUE, Yscale=TRUE, constant=FALSE){
@@ -297,33 +291,17 @@ IMSPEKOHselect <- function(x, newx, fit, level){
   Y2 <- fit$Y2
   
   newx <- matrix(newx, nrow=1)
-  # b <- fit$b
-  # rho <- fit$rho
-  # tau2hat <- fit$tau2hat
-  # g <- fit$g
   
   if(level==1){ ### level 1 ###
     ### Generate output
-    d1 <- data.frame(newx*0.5+0.25, rep(0.05, 1)) # scale X to [-1,1]
-    write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-    run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                      splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                      intern = TRUE)
-    d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-    y1.select <- d2$V4
+    y1.select <- blade1(newx)
     
     X1 <- rbind(fit$X1, newx)
     Y1 <- c(fit$Y1, y1.select)
     
   }else{ ### level 2 ###
     ### Generate output
-    d1 <- data.frame(newx*0.5+0.25, rep(0.0125, 1)) # scale X to [-1,1]
-    write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-    run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                      splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                      intern = TRUE)
-    d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-    y2.select <- d2$V4
+    y2.select <- blade2(newx)
     
     X2 <- rbind(fit$X2, newx)
     Y2 <- c(fit$Y2, y2.select)
@@ -337,13 +315,7 @@ IMSPEKOHselect <- function(x, newx, fit, level){
 fit.KOH <- function(X1, X2, Y1, Y2, g=eps){ # need to change function for another example
   
   ### Generate output
-  d1 <- data.frame(X2*0.5+0.25, rep(0.05, nrow(X2))) # scale X to [-1,1]
-  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                    intern = TRUE)
-  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-  Y1d2 <- d2$V4
+  Y1d2 <- blade1(X2)
   
   ### estimating first order ###
   fit.KOHGP1 <- KOHGP(X1, Y1)
@@ -412,20 +384,36 @@ n.max <- 300        # the maximum number of sample size
 log.fg <- TRUE
 l <- 5
 
+blade1 <- function(xx){
+  d1 <- data.frame(xx*0.5+0.25, rep(0.05, nrow(xx))) # scale X to [-1,1]
+  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
+                    intern = TRUE)
+  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  y <- d2$V4
+  y
+}
+
+blade2 <- function(xx){
+  d1 <- data.frame(xx*0.5+0.25, rep(0.0125, nrow(xx))) # scale X to [-1,1]
+  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
+                    intern = TRUE)
+  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  y <- d2$V4
+  y
+}
+
 ### test data ###
 d <- 2
 n <- 100
 set.seed(1)
 X.test <- maximinLHS(n, d)
-d1 <- data.frame(X.test*0.5+0.25, rep(0.0125, nrow(X.test))) # scale X to [-1,1]
-write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-write.csv(X.test, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-                  splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                  intern = TRUE)
-d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-y.test <- d2$V4 # MM=0.3 takes 10 minutes #
-
+y.test <- blade2(X.test)
 
 for(kk in 1:10){
   time.start <- proc.time()[3]
@@ -442,24 +430,10 @@ for(kk in 1:10){
   X2 <- ExtractNestDesign(NestDesign,2)
   
   ### Y1 ###
-  d1 <- data.frame(X1*0.5+0.25, rep(0.05, nrow(X1))) # scale X to [-1,1]
-  write.csv(X1, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                    intern = TRUE)
-  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-  y1 <- d2$V4
+  y1 <- blade1(X1)
   
   ### Y2 ###
-  d1 <- data.frame(X2*0.5+0.25, rep(0.0125, nrow(X2))) # scale X to [-1,1]
-  write.csv(X2, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
-                    splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                    intern = TRUE)
-  d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-  y2 <- d2$V4
+  y2 <- blade2(X2)
   
   
   ### KOH ###
@@ -475,7 +449,6 @@ for(kk in 1:10){
   
   ### IMSPE ###
   Icurrent <- mean(koh.var2) # current IMSPE
-  Icurrent
   
   ### Add 1 points and calculate IMSPE ###
   IcandKOH1 <- c(rep(0, nrow(X.test))) # IMSPE candidates
@@ -488,30 +461,18 @@ for(kk in 1:10){
     IcandKOH2[i] <- IMSPEKOH(X.test, X.test[i,], fit.KOH2, level=2)
   }
   
-  which.min(IcandKOH1)
-  which.min(IcandKOH2)
-  
   mrsur <- c(Icurrent - IcandKOH1[which.min(IcandKOH1)], Icurrent - IcandKOH2[which.min(IcandKOH2)])
-  mrsur
-  
-  ### cost; 1, 2, 3 ###
-  which.max(mrsur/c(2.25, 6.85))
-  mrsur/c(2.25, 6.85)
-  
-  
+
   chosen <- matrix(0, ncol=2)
   chosen[1,1] <- which.max(mrsur/c(2.25, 6.85))
   chosen[1,2] <- which.min(cbind(IcandKOH1, IcandKOH2)[,chosen[1,1]])
-  
-  
   
   blade.cost <- 0
   blade.error <- sqrt(mean((mx2-y.test)^2))
   blade.crps <- mean(crps(y.test, mx2, koh.var2))
   
   Iselect <- IMSPEKOHselect(X.test, X.test[chosen[nrow(chosen),2],], fit.KOH2, level=chosen[nrow(chosen),1]) 
-  
-  
+
   
   #################
   ### Add point ###
@@ -559,22 +520,11 @@ for(kk in 1:10){
     if(any(IcandKOH1==0)){IcandKOH1[which(IcandKOH1==0)] <-  max(IcandKOH1)}
     if(any(IcandKOH2==0)){IcandKOH2[which(IcandKOH2==0)] <-  max(IcandKOH2)}
     
-    which.min(IcandKOH1)
-    which.min(IcandKOH2)
-    
     mrsur <- c(Icurrent - IcandKOH1[which.min(IcandKOH1)], Icurrent - IcandKOH2[which.min(IcandKOH2)])
-    mrsur
-    
-    ### cost; 1, 2, 3 ###
-    which.max(mrsur/c(2.25, 6.85))
-    mrsur/c(2.25, 6.85)
-    
     
     chosen <- rbind(chosen, c(which.max(mrsur/c(2.25, 6.85)), which.min(cbind(IcandKOH1, IcandKOH2)[,which.max(mrsur/c(2.25, 6.85))])))
     Iselect <- IMSPEKOHselect(X.test, X.test[chosen[nrow(chosen),2],], Iselect, level=chosen[nrow(chosen),1])
-    
   }
-  
   
   ### Save results ###
   costmatk[[kk]] <- blade.cost
@@ -585,6 +535,3 @@ for(kk in 1:10){
 costmatk
 rmsematk
 crpsmatk
-
-
-
