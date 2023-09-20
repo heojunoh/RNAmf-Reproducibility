@@ -93,7 +93,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/python code/park.py")
+  py <- py_run_file("python code/park.py")
   
   result.park.rmse[i,1] <- sqrt(mean((predy-apply(x,1,park91a))^2)) 
   result.park.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-apply(x,1,park91a))^2)) 
