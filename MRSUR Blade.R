@@ -386,24 +386,24 @@ l <- 5
 
 blade1 <- function(xx){
   d1 <- data.frame(xx*0.5+0.25, rep(0.05, nrow(xx))) # scale X to [-1,1]
-  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+  write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
                     splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
                     intern = TRUE)
-  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  d2 <- read.table("Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
   y <- d2$V4
   y
 }
 
 blade2 <- function(xx){
   d1 <- data.frame(xx*0.5+0.25, rep(0.0125, nrow(xx))) # scale X to [-1,1]
-  write.csv(xx, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-  write.csv(d1, "/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-  run_matlab_script("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
+  write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
+  write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
+  run_matlab_script("Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE, 
                     splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
                     intern = TRUE)
-  d2 <- read.table("/Users/junoh/Downloads/StackingDesign-Reproducibility/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
+  d2 <- read.table("Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
   y <- d2$V4
   y
 }
