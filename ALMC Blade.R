@@ -113,7 +113,7 @@ for(kk in 1:10){
     
     ### update the next point ###
     Iselect <- ALMC_two_level(X.test, Iselect$fit, 100, cost, list(blade1, blade2), parallel=TRUE, ncore=10)
-    save.image("/Blade AL3.RData")
+    save.image("Blade AL3.RData")
   }
   
   
@@ -123,7 +123,7 @@ for(kk in 1:10){
   crpsmatc3[[kk]] <- blade.crps
   
   time.each3[kk] <- proc.time()[3]- time.start
-  save.image("/Blade AL3.RData")
+  save.image("Blade AL3.RData")
 }
 costmatc3
 rmsematc3
