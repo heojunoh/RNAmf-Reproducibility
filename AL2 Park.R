@@ -1,11 +1,3 @@
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(doParallel)
-library(foreach)
-library(RNAmf)
-
 eps <- sqrt(.Machine$double.eps)
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
@@ -80,10 +72,10 @@ for(kk in 1:10){
   x <- maximinLHS(1000, d)
 
 
-  ### closed ###
-  fit.closed <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
-  predy <- predRNAmf(fit.closed, x)$mu
-  predsig2 <- predRNAmf(fit.closed, x)$sig2
+  ### RNAmf ###
+  fit.RNAmf <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
+  predy <- predRNAmf(fit.RNAmf, x)$mu
+  predsig2 <- predRNAmf(fit.RNAmf, x)$sig2
 
   ### RMSE ###
   print(sqrt(mean((predy-apply(x,1,park91a))^2))) # closed form
@@ -92,7 +84,7 @@ for(kk in 1:10){
   park.error <- sqrt(mean((predy-apply(x,1,park91a))^2))
   park.crps <- mean(crps(apply(x,1,park91a), predy, predsig2))
 
-  Iselect <- ALC_two_level(x, fit.closed, 100, c(1,cost), list(park91alc, park91a), parallel=TRUE, ncore=10)
+  Iselect <- ALC_two_level(x, fit.RNAmf, 100, c(1,cost), list(park91alc, park91a), parallel=TRUE, ncore=10)
   
 
   #################
@@ -133,6 +125,3 @@ costmatc2
 rmsematc2
 crpsmatc2
 time.each2
-
-
-
