@@ -1,3 +1,13 @@
+import GPy
+import numpy as np
+from matplotlib import pyplot as plt
+import matplotlib.mlab as ml
+import matplotlib.patches as mpatches
+import scipy.stats as stats
+import rpy2.robjects as robjects
+
+import time
+
 ''' load data '''
 r = robjects.r
 loaded_data = r.readRDS("/tmp_data_blade.rds")
