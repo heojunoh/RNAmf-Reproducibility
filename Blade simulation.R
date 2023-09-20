@@ -72,7 +72,7 @@ for(i in 1:rep) {
   
   eps <- sqrt(.Machine$double.eps)
   
-  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=X.test, Ytest=y.test), file = "/Users/junoh/Downloads/tmp_data_blade.rds")
+  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=X.test, Ytest=y.test), file = "tmp_data_blade.rds")
   
   ### RNAmf ###
   tic.RNAmf <- proc.time()[3]
