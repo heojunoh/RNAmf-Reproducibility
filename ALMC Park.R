@@ -78,7 +78,7 @@ for(kk in 1:10){
   park.error <- sqrt(mean((predy-apply(x,1,park91a))^2))
   park.crps <- mean(crps(apply(x,1,park91a), predy, predsig2))
   
-  Iselect <- ALMC_two_level(x, fit.closed, 100, c(1,cost), list(park91alc, park91a), parallel=TRUE, ncore=10)
+  Iselect <- ALMC_two_level(x, fit.RNAmf, 100, c(1,cost), list(park91alc, park91a), parallel=TRUE, ncore=10)
   
   
   #################
