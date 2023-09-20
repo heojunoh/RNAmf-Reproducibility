@@ -85,7 +85,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  tryCatch(py <- py_run_file("/python code/franke.py"), error=function(e) "error")
+  tryCatch(py <- py_run_file("python code/franke.py"), error=function(e) "error")
   
   
   result.franke.rmse[i,1] <- sqrt(mean((predy-apply(x,1,franke2dh))^2)) 
