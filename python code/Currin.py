@@ -1,32 +1,6 @@
-import GPy
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.mlab as ml
-import matplotlib.patches as mpatches
-import scipy.stats as stats
-import rpy2.robjects as robjects
-
-import time
-
-''' function definitions '''
-
-def high(x):
- x1 = x[:,0]
- x2 = x[:,1]
- return (1 - np.exp(-1/(2*x2))) * (2300*x1**3 + 1900*x1**2 + 2092*x1 + 60) / (100*x1**3 + 500*x1**2 + 4*x1 +20)
-
-def low(x):
- x1 = x[:,0]
- x2 = x[:,1]
- xx11 = x1+0.05
- xx12 = x1-0.05
- xx21 = x2+0.05
- xx22 = np.maximum([0], [x2-0.05])
- return 1/4*(high(np.vstack((xx11,xx21)).T)+high(np.vstack((xx11,xx22)).T)+high(np.vstack((xx12,xx21)).T)+high(np.vstack((xx12,xx22)).T))
-
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_currin.rds")
+loaded_data = r.readRDS("/tmp_data_currin.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
 Y1=np.array(loaded_data[2])[:,None]
