@@ -449,7 +449,7 @@ for(kk in 1:10){
   #################
   ### Add point ###
   #################
-  while(perd.cost[length(perd.cost)] < 50){ # if total cost is less than the budget
+  while(perd.cost[length(perd.cost)] < 43){ # if total cost is less than the budget
     
     ### predictive ###
     pred.KOH2 <- pred.KOH(Iselect, x)
@@ -494,7 +494,7 @@ for(kk in 1:10){
     chosen <- rbind(chosen, c(which.max(mrsur/c(1,cost)), which.min(cbind(IcandKOH1, IcandKOH2)[,which.max(mrsur/c(1,cost))])))
     Iselect <- IMSPEKOHselect1(g, g[chosen[nrow(chosen),2]], Iselect, level=chosen[nrow(chosen),1])
     
-    if(perd.cost[length(perd.cost)] >= 50){break}
+    if(perd.cost[length(perd.cost)] >= 43){break}
     
   }
   
