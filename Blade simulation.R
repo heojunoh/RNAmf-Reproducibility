@@ -94,7 +94,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/python code/Blade.py")
+  py <- py_run_file("python code/Blade.py")
   
   ### RMSE ###
   result.blade.rmse[i,1] <- sqrt(mean((predy-y.test)^2)) # RNAmf
