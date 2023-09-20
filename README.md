@@ -81,9 +81,8 @@ eps <- sqrt(.Machine$double.eps) #small nugget for numeric stability
 
 ##### Section 5.1: Reproducing Figure 4
 
-This is reproducing plots of RMSE for synthetic functions. Each script
-will run the simulation for the corresponding synthetic function. Python
-codes may take long.
+This is reproducing plots of RMSE for synthetic functions. Before you run, you should set the path on R and python script. 
+Each script will run the simulation for the corresponding synthetic function.
 
 ``` r
 # Run 6 synthetic simulations
