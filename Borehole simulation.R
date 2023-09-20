@@ -93,7 +93,7 @@ for(i in 1:rep) {
   ### test data ###
   x <- maximinLHS(1000, d)
   
-  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=x, Ytest=apply(x,1,output.f)), file = "/Users/junoh/Downloads/tmp_data_borehole.rds")
+  saveRDS(list(X1=X1, X2=X2, Y1=y1, Y2=y2, Xtest=x, Ytest=apply(x,1,output.f)), file = "tmp_data_borehole.rds")
   
   ### RNAmf ###
   tic.RNAmf <- proc.time()[3]
