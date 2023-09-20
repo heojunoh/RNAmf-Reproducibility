@@ -4,7 +4,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
     B,
     xpred,
     yreal = NULL,
-    myfunctions, # no for blade
+    myfunctions,
     niter,
     param.estim = FALSE,
     error.compute = FALSE, 
@@ -139,6 +139,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
           row.names(Dnew) = NULL
           Dseq<- NestedDesign(Dnew, nlevel=2 , indices = Dseq$ind )
           
+          xnew <- matrix(xnew, nrow=1)
           y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
           
           coutTot <- coutTot + 1
@@ -152,6 +153,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             row.names(Dnew) = NULL
             Dseq<- NestedDesign(Dnew, nlevel=2 , indices = Dseq$ind )
             
+            xnew <- matrix(xnew, nrow=1)
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             
             coutTot <- coutTot + 1
@@ -162,6 +164,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             indice2 <- c(Dseq$ind[[1]],ind.exist)
             Dseq <- NestedDesign(Dseq$PX, nlevel=2 , indices = list(indice2) )
             
+            xnew <- matrix(xnew, nrow=1)
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
             
             coutTot <- coutTot + B + 1
@@ -172,6 +175,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             row.names(Dnew) = NULL
             Dseq <- NestedDesign(Dnew, nlevel=2 , indices = list(indice2) )
             
+            xnew <- matrix(xnew, nrow=1)
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
             
@@ -191,6 +195,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
           row.names(Dnew) = NULL
           Dseq<- NestedDesign(Dnew, nlevel=2 , indices = Dseq$ind )
           
+          xnew <- matrix(xnew, nrow=1)
           y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
           
           coutTot <- coutTot + 1
@@ -204,6 +209,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             row.names(Dnew) = NULL
             Dseq<- NestedDesign(Dnew, nlevel=2 , indices = Dseq$ind )
             
+            xnew <- matrix(xnew, nrow=1)
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             
             coutTot <- coutTot + 1
@@ -214,6 +220,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             indice2 <- c(Dseq$ind[[1]],ind.exist)
             Dseq <- NestedDesign(Dseq$PX, nlevel=2 , indices = list(indice2) )
             
+            xnew <- matrix(xnew, nrow=1)
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
             
             coutTot <- coutTot + B + 1
@@ -224,6 +231,7 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             row.names(Dnew) = NULL
             Dseq <- NestedDesign(Dnew, nlevel=2 , indices = list(indice2) )
             
+            xnew <- matrix(xnew, nrow=1)
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
             
