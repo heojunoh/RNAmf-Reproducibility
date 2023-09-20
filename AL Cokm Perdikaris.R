@@ -1,10 +1,4 @@
 source("/Cokm;Internal_functions.R")
-library("DiceKriging")
-library("MuFiCokriging")
-library("lhs")
-library("rgenoud")
-library("mcmc")
-
 one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
     model,
     B,
@@ -147,15 +141,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
           
           y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
           
-          # xnew <- matrix(xnew, nrow=1)
-          # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-          # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-          # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-          #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-          #                   intern = TRUE)
-          # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-          # y1 <- c(y1, d2$V4)
-          
           coutTot <- coutTot + 1
           coutSave <- c(coutSave,coutTot)
         }
@@ -169,15 +154,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y1 <- c(y1, d2$V4)
-            
             coutTot <- coutTot + 1
             coutSave <- c(coutSave,coutTot)
           }	
@@ -187,15 +163,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             Dseq <- NestedDesign(Dseq$PX, nlevel=2 , indices = list(indice2) )
             
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
-            
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.0125) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y2 <- c(y2, d2$V4)
             
             coutTot <- coutTot + B + 1
             coutSave <- c(coutSave,coutTot)
@@ -207,22 +174,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
-            
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y1 <- c(y1, d2$V4)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.0125) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y2 <- c(y2, d2$V4)
             
             coutTot <- coutTot + B + 1
             coutSave <- c(coutSave,coutTot)
@@ -242,15 +193,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
           
           y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
           
-          # xnew <- matrix(xnew, nrow=1)
-          # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-          # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-          # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-          #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-          #                   intern = TRUE)
-          # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-          # y1 <- c(y1, d2$V4)
-          
           coutTot <- coutTot + 1
           coutSave <- c(coutSave,coutTot)
         }
@@ -264,15 +206,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y1 <- c(y1, d2$V4)
-            
             coutTot <- coutTot + 1
             coutSave <- c(coutSave,coutTot)
           }	
@@ -282,15 +215,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             Dseq <- NestedDesign(Dseq$PX, nlevel=2 , indices = list(indice2) )
             
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
-            
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.0125) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y2 <- c(y2, d2$V4)
             
             coutTot <- coutTot + B + 1
             coutSave <- c(coutSave,coutTot)
@@ -302,22 +226,6 @@ one_step_cokm_varmax <- function( # This is from Le Gratiet and Cannamela (2015)
             
             y1 <- c(y1,myfunctions[[1]](t(as.matrix(xnew))))
             y2 <- c(y2,myfunctions[[2]](t(as.matrix(xnew))))
-            
-            # xnew <- matrix(xnew, nrow=1)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.05) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y1 <- c(y1, d2$V4)
-            # d1 <- data.frame(xnew*0.5+0.25, 0.0125) # scale X to [-1,1]
-            # write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-            # run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-            #                   splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-            #                   intern = TRUE)
-            # d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-            # y2 <- c(y2, d2$V4)
             
             coutTot <- coutTot + B + 1
             coutSave <- c(coutSave,coutTot)
@@ -499,6 +407,3 @@ for(kk in 1:10){
 costmatco
 rmsematco
 crpsmatco
-
-
-
