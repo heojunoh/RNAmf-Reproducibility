@@ -1,8 +1,4 @@
 eps <- sqrt(.Machine$double.eps)
-crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
-  if(any(sig2==0)) sig2[sig2==0] <- eps
-  -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
-}
 
 costmatc3 <- list(NA)
 rmsematc3 <- list(NA)
@@ -54,13 +50,13 @@ for(kk in 1:10){
   perd.error <- sqrt(mean((predy-f2(x))^2))
   perd.crps <- mean(crps(f2(x), predy, predsig2))
   
-  Iselect <- ALMC_two_level(x, fit.RNAmf, 100, c(1,cost), list(f1, f2), parallel=TRUE, ncore=10)
+  Iselect <- ALMC_two_level(x, fit.RNAmf, 43, c(1,cost), list(f1, f2), parallel=TRUE, ncore=10)
   
   
   #################
   ### Add point ###
   #################
-  while(perd.cost[length(perd.cost)] < 50){ # if total cost is less than the budget
+  while(perd.cost[length(perd.cost)] < 43){ # if total cost is less than the budget
     ### closed ###
     predy <- predRNAmf(Iselect$fit, x)$mu
     predsig2 <- predRNAmf(Iselect$fit, x)$sig2
