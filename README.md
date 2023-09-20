@@ -57,7 +57,7 @@ library(ggbreak)
 library(patchwork)
 extrafont::loadfonts()
 
-source(crps.R)
+source("/crps.R")
 source("/Cokm;Internal_functions.R")    # This is from Le Gratiet and Cannamela (2015)
 source("/Cokm;one_step_cokm_varmax.R")  # This is from Le Gratiet and Cannamela (2015)
 py_install("GPy")
@@ -341,8 +341,6 @@ ggplot(df.comptime,
   theme(legend.position="none",
         panel.spacing = unit(0, "lines")) +
   geom_vline(xintercept = c(0.4,6.6), linetype="dotted")+
-  scale_y_continuous(
-    limits = c(0,214)) +
   facet_grid(. ~ model)
 ```
 
@@ -659,11 +657,11 @@ function.
 
 ``` r
 # Run 5 active learning strategies for Perdikaris function
-source("ALM park")
-source("ALC park")
-source("ALMC park")
-source("AL Cokm park")
-source("AL MRSUR park")
+source("ALM park.r")
+source("ALC park.r")
+source("ALMC park.r")
+source("AL Cokm park.r")
+source("AL MRSUR park.r")
 
 # RMSE
 resultmatc <- matrix(, nrow=31, ncol=10)
@@ -1022,11 +1020,11 @@ data. Before you run, you should set the path on R and matlab script.
 
 ``` r
 # Run 5 active learning strategies for Blade data
-source("ALM blade")
-source("ALC blade")
-source("ALMC blade")
-source("Cokm blade")
-source("MRSUR blade")
+source("ALM blade.r")
+source("ALC blade.r")
+source("ALMC blade.r")
+source("Cokm blade.r")
+source("MRSUR blade.r")
 
 # RMSE
 resultmatc <- matrix(, nrow=length(seq(0, 45.5, 0.05)), ncol=10)
