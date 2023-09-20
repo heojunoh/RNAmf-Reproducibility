@@ -1,9 +1,4 @@
 ### Park Example ###
-crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
-  if(any(sig2==0)) sig2[sig2==0] <- eps
-  -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
-}
-
 ### synthetic function ###
 park91a <- function(xx)
 {
@@ -106,11 +101,6 @@ for(i in 1:rep) {
   result.park.comptime[i,2] <- toc.cokm - tic.cokm
 }
 
-py_install("GPy")
-py_install("pandas")
-py_install("matplotlib")
-py_install("scipy")
-py_install("time")
 py_run_file("python code/Park.py")
 result.park.rmse <- cbind(result.park.rmse, NARGP=unlist(py$l2error))
 result.park.meancrps <- cbind(result.park.meancrps, NARGP=unlist(py$meancrps))
