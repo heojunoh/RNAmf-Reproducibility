@@ -74,7 +74,7 @@ for(kk in 1:10){
     
     ### update the next point ###
     Iselect <- ALM_two_level(Iselect$fit, c(1,cost), list(f1, f2), parallel=TRUE, ncore=10)
-    # save.image("/Perd AL 1,3.RData")
+    # save.image("Perd AL 1,3.RData")
   }
 
   ### Save results ###
@@ -83,7 +83,7 @@ for(kk in 1:10){
   crpsmatc[[kk]] <- perd.crps
   
   time.each[kk] <- proc.time()[3]- time.start
-  # save.image("/Perd AL 1,3.RData")
+  # save.image("Perd AL 1,3.RData")
 }
 costmatc
 rmsematc
