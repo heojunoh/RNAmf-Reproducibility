@@ -15,7 +15,6 @@ log.fg <- TRUE
 l <- 5
 
 blade1 <- function(xx){
-  
   d1 <- data.frame(xx*0.5+0.25, rep(0.05, nrow(xx))) # scale X to [-1,1]
   write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
   write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
@@ -28,7 +27,6 @@ blade1 <- function(xx){
 }
 
 blade2 <- function(xx){
-  
   d1 <- data.frame(xx*0.5+0.25, rep(0.0125, nrow(xx))) # scale X to [-1,1]
   write.csv(xx, "Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
   write.csv(d1, "Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
@@ -56,20 +54,10 @@ n1 <- 20; n2 <- 10
 n <- 100
 set.seed(1)
 X.test <- maximinLHS(n, d)
-d1 <- data.frame(X.test*0.5+0.25, rep(0.0125, nrow(X.test))) # scale X to [-1,1]
-write.csv(X.test, "/Rmatlab_files/generate_text/temp_to_X.txt", row.names=F)
-write.csv(d1, "/Rmatlab_files/generate_text/temp_to_matlab.txt", row.names=F)
-run_matlab_script("/Rmatlab_files/SolveJetBlade.m", verbose = FALSE, desktop = FALSE,
-                  splash = FALSE, display = FALSE, wait = TRUE, single_thread = FALSE,
-                  intern = TRUE)
-d2 <- read.table("/Rmatlab_files/generate_text/temp_to_r.txt", sep = ",")
-y.test <- d2$V4
-y.test
-write.csv(y.test, "/Rmatlab_files/generate_text/ytestmin.txt", row.names=F)
+y.test <- blade2(X.test)
 
 for(i in 1:rep) {
   
-  # i <- 10 # 1-10
   set.seed(i)
   
   ### Generate Input ###
@@ -89,12 +77,13 @@ for(i in 1:rep) {
   y2 <- blade2(X2)
   
   
-  ### closed ###
-  tic.closed <- proc.time()[3]
-  fit.closed <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
-  predy <- predRNAmf(fit.closed, X.test)$mu
-  predsig2 <- predRNAmf(fit.closed, X.test)$sig2
-  toc.closed <- proc.time()[3]
+  ### RNAmf ###
+  tic.RNAmf <- proc.time()[3]
+  fit.RNAmf <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
+  pred.RNAmf <- predRNAmf(fit.RNAmf, X.test)
+  predy <- pred.RNAmf$mu
+  predsig2 <- pred.RNAmf$sig2
+  toc.RNAmf <- proc.time()[3]
   
   
   ### Cokriging ###
@@ -115,7 +104,7 @@ for(i in 1:rep) {
   result.blade.meancrps[i,1] <- mean(crps(y.test, predy, predsig2)) # RNAmf
   result.blade.meancrps[i,2] <- mean(crps(y.test, pred.muficokm$mean, pred.muficokm$sig2)) # Cokriging
   
-  result.blade.comptime[i,1] <- toc.closed - tic.closed
+  result.blade.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.blade.comptime[i,2] <- toc.cokm - tic.cokm
   
 }
