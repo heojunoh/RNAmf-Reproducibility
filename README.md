@@ -29,7 +29,7 @@ install_github("cran/MuFiCokriging")
 
 ##### Step 0.1: load functions and packages
 
-Before running .py file, get working directory by getwd.
+Before running .py file, you may need to set a proper working directory by getwd/setwd.
 
 ``` r
 library(lhs)
