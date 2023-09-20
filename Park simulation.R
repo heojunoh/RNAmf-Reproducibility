@@ -1,16 +1,3 @@
-### park Example ###
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(RNAmf)
-library(reticulate)
-
-crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
-  if(any(sig2==0)) sig2[sig2==0] <- eps
-  -sqrt(sig2)*(1/sqrt(pi)-2*dnorm((x-mu)/sqrt(sig2))-(x-mu)/sqrt(sig2)*(2*pnorm((x-mu)/sqrt(sig2))-1))
-}
-
 ### synthetic function ###
 park91a <- function(xx)
 {
@@ -106,7 +93,7 @@ for(i in 1:rep) {
   
   
   ### NARGP ###
-  py <- py_run_file("/Users/junoh/Downloads/park.py")
+  py <- py_run_file("/python code/park.py")
   
   result.park.rmse[i,1] <- sqrt(mean((predy-apply(x,1,park91a))^2)) 
   result.park.rmse[i,2] <- sqrt(mean((pred.muficokm$mean-apply(x,1,park91a))^2)) 
@@ -119,7 +106,5 @@ for(i in 1:rep) {
   result.park.comptime[i,1] <- toc.RNAmf - tic.RNAmf
   result.park.comptime[i,2] <- toc.cokm - tic.cokm
   result.park.comptime[i,3] <- py$ctime
-  
-  boxplot(result.park.rmse[1:i,, drop=FALSE])
 }
 
