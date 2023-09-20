@@ -524,7 +524,7 @@ for(kk in 1:10){
   costmatk[[kk]] <- blade.cost
   rmsematk[[kk]] <- blade.error
   crpsmatk[[kk]] <- blade.crps
-  save.image("/Blade KOH.RData")
+  save.image("Blade KOH.RData")
 }
 costmatk
 rmsematk
