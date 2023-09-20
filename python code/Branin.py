@@ -10,7 +10,7 @@ import time
 
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_franke.rds")
+loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_branin.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
 X3=np.array(loaded_data[2])

@@ -3,42 +3,35 @@ import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib.mlab as ml
 import matplotlib.patches as mpatches
+import pandas as pd
 import scipy.stats as stats
 import rpy2.robjects as robjects
 
 import time
 
-''' function definitions '''
-def high(x):
-  return (x-np.sqrt(2))*low(x)**2
- # return low(x)**2
-
-def low(x):
-  return np.sin(8.0*np.pi*x)
-
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_perd.rds")
+loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_blade.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
-Y1=np.array(loaded_data[2])
-Y2=np.array(loaded_data[3])
+Y1=np.array(loaded_data[2])[:,None]
+Y2=np.array(loaded_data[3])[:,None]
 Xtest=np.array(loaded_data[4])
-Exact=np.array(loaded_data[5])
+Exact=np.array(loaded_data[5])[:,None]
 
 ''' Define training and test points '''
-dim = 1
-s = 2
+dim = 2
 plot = 1
-N1 = 13
-N2 = np.array([8])
+N1 = 20
+N2 = 10
 ensemble = 1
 
 Nts = 1000
+active_dimensions = np.arange(0,dim)
 
 ''' Train level 1 '''
 start = time.time()
-k1 = GPy.kern.RBF(1)
+k1 = GPy.kern.RBF(dim, ARD = True)
 m1 = GPy.models.GPRegression(X=X1, Y=Y1, kernel=k1)
 
 m1[".*Gaussian_noise"] = m1.Y.var()*0.01
@@ -57,8 +50,8 @@ mu1, v1 = m1.predict(X2)
 ''' Train level 2 '''
 XX = np.hstack((X2, mu1))
 
-k2 = GPy.kern.RBF(1, active_dims = [1])*GPy.kern.RBF(1, active_dims = [0]) \
-+ GPy.kern.RBF(1, active_dims = [0])
+k2 = GPy.kern.RBF(1, active_dims = [dim])*GPy.kern.RBF(dim, active_dims = active_dimensions, ARD = True) \
++ GPy.kern.RBF(dim, active_dims = active_dimensions, ARD = True)
 
 m2 = GPy.models.GPRegression(X=XX, Y=Y2, kernel=k2)
 
@@ -74,8 +67,8 @@ m2.optimize_restarts(20, optimizer = "bfgs",  max_iters = 1000)
 
 
 ''' Predict at test points '''
-#sample f_1 at xtest
-nsamples = 1000
+# sample f_1 at xtest
+nsamples = 100
 mu1, C1 = m1.predict(Xtest, full_cov=True)
 Z = np.random.multivariate_normal(mu1.flatten(),C1,nsamples)
 
@@ -93,7 +86,6 @@ var = np.mean(tmp_v, axis = 0)[:,None]+ np.var(tmp_m, axis = 0)[:,None]
 var = np.abs(var)
 end = time.time()
 
-error = np.sqrt(np.mean((mean-Exact)**2))
-score = np.mean(-(Exact-mean)**2/var-np.log(var))
+error = np.sqrt(np.mean((mean-Exact)**2)) 
 crps = np.mean(-np.sqrt(var)*(1/np.sqrt(np.pi)-2*stats.norm.pdf((Exact-mean)/np.sqrt(var))-(Exact-mean)/np.sqrt(var)*(2*stats.norm.cdf((Exact-mean)/np.sqrt(var))-1)))
 ctime = (end - start)
