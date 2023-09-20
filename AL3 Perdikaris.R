@@ -1,11 +1,3 @@
-library(lhs)
-library(laGP)
-library(plgp)
-library(MuFiCokriging)
-library(doParallel)
-library(foreach)
-library(RNAmf)
-
 eps <- sqrt(.Machine$double.eps)
 crps <- function(x, mu, sig2){ # The smaller, the better (0 to infinity)
   if(any(sig2==0)) sig2[sig2==0] <- eps
@@ -50,19 +42,19 @@ for(kk in 1:10){
   x <- seq(0,1,length.out=1000)
   
   
-  ### closed ###
-  fit.closed <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
-  predy <- predRNAmf(fit.closed, x)$mu
-  predsig2 <- predRNAmf(fit.closed, x)$sig2
+  ### RNAmf ###
+  fit.RNAmf <- RNAmf(X1, y1, X2, y2, kernel="sqex", constant=TRUE)
+  predy <- predRNAmf(fit.RNAmf, x)$mu
+  predsig2 <- predRNAmf(fit.RNAmf, x)$sig2
   
   ### RMSE ###
-  sqrt(mean((predy-f2(x))^2)) # closed form
+  sqrt(mean((predy-f2(x))^2)) # RNAmf
   
   perd.cost <- 0
   perd.error <- sqrt(mean((predy-f2(x))^2))
   perd.crps <- mean(crps(f2(x), predy, predsig2))
   
-  Iselect <- ALMC_two_level(x, fit.closed, 100, c(1,cost), list(f1, f2), parallel=TRUE, ncore=10)
+  Iselect <- ALMC_two_level(x, fit.RNAmf, 100, c(1,cost), list(f1, f2), parallel=TRUE, ncore=10)
   
   
   #################
@@ -103,6 +95,3 @@ costmatc3
 rmsematc3
 crpsmatc3
 time.each3
-
-
-
