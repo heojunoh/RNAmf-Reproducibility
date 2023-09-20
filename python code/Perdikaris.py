@@ -1,24 +1,6 @@
-import GPy
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.mlab as ml
-import matplotlib.patches as mpatches
-import scipy.stats as stats
-import rpy2.robjects as robjects
-
-import time
-
-''' function definitions '''
-def high(x):
-  return (x-np.sqrt(2))*low(x)**2
- # return low(x)**2
-
-def low(x):
-  return np.sin(8.0*np.pi*x)
-
 ''' load data '''
 r = robjects.r
-loaded_data = r.readRDS("/Users/junoh/Downloads/tmp_data_perd.rds")
+loaded_data = r.readRDS("/tmp_data_perd.rds")
 X1=np.array(loaded_data[0])
 X2=np.array(loaded_data[1])
 Y1=np.array(loaded_data[2])
