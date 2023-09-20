@@ -436,7 +436,7 @@ for(kk in 1:10){
       B = B,
       xpred = X.test,
       yreal = y.test,
-      # myfunctions = list(blade1, blade2),
+      myfunctions = list(blade1, blade2),
       niter = niter,
       param.estim = TRUE,
       error.compute = FALSE,
