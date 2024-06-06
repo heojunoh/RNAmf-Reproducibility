@@ -168,7 +168,7 @@ source("plot Fig7.R")
 numerical.rmse
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure S14
 
@@ -179,7 +179,7 @@ source("plot FigS14.R")
 numerical.crps
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
 
 ##### Section 5.1: Reproducing Figure 8
 
@@ -191,7 +191,7 @@ source("plot Fig8.R")
 numerical.time
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 ## Section 5.2
 
@@ -215,7 +215,7 @@ source("plot Fig9.R")
 plotalperd
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure 10
 
@@ -227,7 +227,7 @@ source("plot Fig10.R")
 plotalperd2
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure S15
 
@@ -249,7 +249,7 @@ source("plot FigS15.R")
 plotalpark
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" />
 
 ##### Section 5.2: Reproducing Figure S16
 
@@ -261,7 +261,7 @@ source("plot FigS16.R")
 plotalpark2
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-17-1.png" style="display: block; margin: auto;" />
 
 ## Section 6
 
@@ -288,7 +288,7 @@ source("plot Fig11.R")
 plot.blade
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" />
 
 ##### Section 6: Reproducing Figure 12
 
@@ -309,7 +309,7 @@ source("plot Fig12.R")
 plotalblade
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-21-1.png" style="display: block; margin: auto;" />
 
 ##### Section 6: Reproducing Figure 13
 
@@ -321,4 +321,4 @@ source("plot Fig13.R")
 plotalblade2
 ```
 
-<img src="README-RNAmf-Reproducibility_files/figure-gfm/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
+<img src="figure-gfm/unnamed-chunk-23-1.png" style="display: block; margin: auto;" />
